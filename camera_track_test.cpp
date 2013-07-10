@@ -33,8 +33,8 @@ int main( int argc, char *argv[] ) {
   Scalar red_upper = Scalar(15, 240, 254) ;
 
   namedWindow( "Source", CV_WINDOW_AUTOSIZE ) ;
-  namedWindow( "Blue Thresholded", CV_WINDOW_AUTOSIZE ) ;
-  namedWindow( "Red Thresholded", CV_WINDOW_AUTOSIZE ) ;
+  // namedWindow( "Blue Thresholded", CV_WINDOW_AUTOSIZE ) ;
+  // namedWindow( "Red Thresholded", CV_WINDOW_AUTOSIZE ) ;
   namedWindow( "Thresholded", CV_WINDOW_AUTOSIZE ) ;
 
   while ( true ) {
@@ -63,15 +63,16 @@ int main( int argc, char *argv[] ) {
     blue_centroid = computeCentroid( blue_thresholded ) ;
     red_centroid = computeCentroid( red_thresholded ) ;
 
-    cout << blue_centroid.x << " " << blue_centroid.y << endl ;
+    cout << blue_centroid.x << " " << blue_centroid.y << " " ;
+    cout << red_centroid.x << " " << red_centroid.y << endl ;
 
     /* draw a circle around the center point */
     circle( scaled, blue_centroid, 5, blue_upper, -1 ) ;
     circle( scaled, red_centroid, 5, red_upper, -1 ) ;
 
     imshow( "Source", scaled );
-    imshow( "Blue Thresholded", blue_thresholded ) ;
-    imshow( "Red Thresholded", red_thresholded ) ;
+    // imshow( "Blue Thresholded", blue_thresholded ) ;
+    // imshow( "Red Thresholded", red_thresholded ) ;
     imshow( "Thresholded", both_thresholded ) ;
 
     if ( waitKey(30) >= 0 ) break ;
