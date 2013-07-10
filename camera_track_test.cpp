@@ -21,8 +21,8 @@ int main( int argc, char *argv[] ) {
   Mat scaled ;
   Point centroid ;
 
-  Scalar lower = Scalar(14, 200, 60) ;
-  Scalar upper = Scalar(22, 245, 220) ;
+  Scalar lower = Scalar(28, 180, 135) ;
+  Scalar upper = Scalar(50, 250, 200) ;
 
   namedWindow( "Source", CV_WINDOW_AUTOSIZE ) ;
   namedWindow( "Thresholded", CV_WINDOW_AUTOSIZE ) ;
@@ -42,11 +42,11 @@ int main( int argc, char *argv[] ) {
     cvtColor( scaled, imgHSV, CV_BGR2HSV );
     blur( imgHSV, imgHSV, Size( 5, 5 ) ) ;
 
-    /* make everything that doesn't match the color of the ball black */
+    /* create some binary images */
     thresholded = GetThresholdedImage( imgHSV, lower, upper ) ;
     centroid = computeCentroid( thresholded ) ;
-    cout << "x: " << centroid.x << " y: " << centroid.y << endl ;
-    /* here is the part where I communicate with the serial port somehow */
+
+    cout << centroid.x << " " << centroid.y << endl ;
 
     /* draw a circle around the center point */
     circle( scaled, centroid, 5, upper, -1 ) ;
