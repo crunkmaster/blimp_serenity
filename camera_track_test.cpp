@@ -19,15 +19,24 @@ int main( int argc, char *argv[] ) {
     return -1 ;
 
   Mat scaled ;
-  Point centroid ;
+  Point blue_centroid ;
+  Point black_centroid ;
 
-  Scalar lower = Scalar(28, 180, 135) ;
+
   Scalar upper = Scalar(50, 250, 200) ;
 
-  namedWindow( "Source", CV_WINDOW_AUTOSIZE ) ;
-  namedWindow( "Thresholded", CV_WINDOW_AUTOSIZE ) ;
-  namedWindow( "Thresholded_Eroded", CV_WINDOW_AUTOSIZE ) ;
+  /* these two sets of Scalars should be updated to the 
+     markers that are placed on the blimp */
 
+  Scalar blue_lower = Scalar(115, 150, 60) ;
+  Scalar blue_upper = Scalar(125, 220, 150) ;
+
+  Scalar black_lower = Scalar(0, 0, 0) ;
+  Scalar black_upper = Scalar(0, 0, 0) ;
+
+  namedWindow( "Source", CV_WINDOW_AUTOSIZE ) ;
+  namedWindow( "Blue Thresholded", CV_WINDOW_AUTOSIZE ) ;
+  namedWindow( "Black Thresholded", CV_WINDOW_AUTOSIZE ) ;
   while ( true ) {
 
     /* grab a new frame from the camera */
@@ -36,23 +45,28 @@ int main( int argc, char *argv[] ) {
     resize( src, scaled, Size(), 0.5, 0.5 ) ;
 
     Mat imgHSV = Mat(scaled.size(), 8, 1) ;
-    Mat thresholded  = Mat(scaled.size(), 8, 1) ;
+    Mat blue_thresholded  = Mat(scaled.size(), 8, 1) ;
+    Mat black_thresholded = Mat(scaled.size(), 8, 1) ;
 
     /* convert image to HSV and blur it */
     cvtColor( scaled, imgHSV, CV_BGR2HSV );
     blur( imgHSV, imgHSV, Size( 5, 5 ) ) ;
 
     /* create some binary images */
-    thresholded = GetThresholdedImage( imgHSV, lower, upper ) ;
-    centroid = computeCentroid( thresholded ) ;
+    blue_thresholded = GetThresholdedImage( imgHSV, blue_lower, blue_upper ) ;
+    black_thresholded = GetThresholdedImage( imgHSV, black_lower, black_upper ) ;
+    blue_centroid = computeCentroid( blue_thresholded ) ;
+    black_centroid = computeCentroid( black_thresholded ) ;
 
-    cout << centroid.x << " " << centroid.y << endl ;
+    cout << blue_centroid.x << " " << blue_centroid.y << endl ;
 
     /* draw a circle around the center point */
-    circle( scaled, centroid, 5, upper, -1 ) ;
+    circle( scaled, blue_centroid, 5, upper, -1 ) ;
+    circle( scaled, black_centroid, 5, upper, -1 ) ;
 
     imshow( "Source", scaled );
-    imshow( "Thresholded", thresholded ) ;
+    imshow( "Blue Thresholded", blue_thresholded ) ;
+    imshow( "Black Thresholded", black_thresholded ) ;
 
     if ( waitKey(30) >= 0 ) break ;
 
