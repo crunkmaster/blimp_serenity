@@ -26,16 +26,17 @@ int main( int argc, char *argv[] ) {
   /* these two sets of Scalars should be updated to the 
      markers that are placed on the blimp */
 
-  Scalar blue_lower = Scalar(115, 120, 60) ;
+  Scalar blue_lower = Scalar(115, 120, 0) ;
   Scalar blue_upper = Scalar(125, 220, 254) ;
 
-  Scalar red_lower = Scalar(0, 150, 60) ;
+  Scalar red_lower = Scalar(0, 150, 0) ;
   Scalar red_upper = Scalar(15, 240, 254) ;
 
   namedWindow( "Source", CV_WINDOW_AUTOSIZE ) ;
   namedWindow( "Blue Thresholded", CV_WINDOW_AUTOSIZE ) ;
   namedWindow( "Red Thresholded", CV_WINDOW_AUTOSIZE ) ;
   namedWindow( "Thresholded", CV_WINDOW_AUTOSIZE ) ;
+
   while ( true ) {
 
     /* grab a new frame from the camera */
@@ -49,12 +50,15 @@ int main( int argc, char *argv[] ) {
     Mat both_thresholded = Mat(scaled.size(), 8, 1) ;
 
     /* convert image to HSV and blur it */
+    medianBlur(scaled, scaled, 9);
     cvtColor( scaled, imgHSV, CV_BGR2HSV );
-    blur( imgHSV, imgHSV, Size( 10, 10 ) ) ;
 
     /* create some binary images */
     blue_thresholded = GetThresholdedImage( imgHSV, blue_lower, blue_upper ) ;
     red_thresholded = GetThresholdedImage( imgHSV, red_lower, red_upper ) ;
+    /* dilate the thresholded images to fill in holes */
+    dilate( blue_thresholded, blue_thresholded, Mat(), Point(-1, -1));
+    dilate( red_thresholded, red_thresholded, Mat(), Point(-1, -1));
     both_thresholded = combineImages( red_thresholded, blue_thresholded ) ;
     blue_centroid = computeCentroid( blue_thresholded ) ;
     red_centroid = computeCentroid( red_thresholded ) ;

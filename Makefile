@@ -1,4 +1,5 @@
-stuff: camera_track camera_track_test
+stuff: camera_track camera_track_test squares
+
 camera_track: camera_track.cpp
 	g++ camera_track.cpp -o camera_track `pkg-config --cflags --libs opencv`
 
