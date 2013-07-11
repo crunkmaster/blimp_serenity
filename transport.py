@@ -34,14 +34,14 @@ while True:
     blue_x, blue_y, red_x, red_y = line.split()
     blue = {'x': int(blue_x), 'y': int(blue_y)}
     red = {'x': int(red_x), 'y': int(red_y)}
-    
+
     if blue['x'] == -2147483648:
         print "cannot see blue object"
     elif red['x'] == -2147483648:
         print "cannot see red object"
     else:
         average_x = (blue['x'] + red['x']) / 2
-        average_y = (blue['y'] + red['y']) / 2        
+        average_y = (blue['y'] + red['y']) / 2
         print "x: {0}, y: {1}".format(average_x, average_y)
         # this is an orientation between -pi and pi radians
         orientation = math.atan2(blue['y'] - red['y'], blue['x'] - red['x'])

@@ -1,3 +1,9 @@
+/*
+   this file uses openCV to track two objects
+   and shuttle the coordinates to the python script
+   which communicates with the Blimp
+*/
+
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
 #include <iostream>
@@ -23,7 +29,7 @@ int main( int argc, char *argv[] ) {
   Point blue_centroid ;
   Point red_centroid ;
 
-  /* these two sets of Scalars should be updated to the 
+  /* these two sets of Scalars should be updated to the
      markers that are placed on the blimp */
 
   Scalar blue_lower = Scalar(115, 120, 0) ;
@@ -102,7 +108,7 @@ Mat combineImages( Mat img1, Mat img2 ) {
   int cols = img1.cols ;
   Mat dst = cvCreateMat(rows, 2 * cols, img1.type()) ;
   Mat tmp = dst(cv::Rect(0, 0, cols, rows));
-  img1.copyTo(tmp); 
+  img1.copyTo(tmp);
   tmp = dst(cv::Rect(cols, 0, cols, rows)) ;
   img2.copyTo(tmp);
   return dst ;

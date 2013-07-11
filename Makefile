@@ -1,4 +1,7 @@
-stuff: camera_track camera_track_test squares
+stuff: blimp_track
+
+blimp_track: blimp_track.cpp
+	g++ blimp_track.cpp -o blimp_track `pkg-config --cflags --libs opencv`
 
 camera_track: camera_track.cpp
 	g++ camera_track.cpp -o camera_track `pkg-config --cflags --libs opencv`
