@@ -20,7 +20,7 @@ Mat combineImages( Mat img1, Mat img2 ) ;
 int main( int argc, char *argv[] ) {
 
   /* open the first camera available */
-  VideoCapture cap( 0 ) ;
+  VideoCapture cap( 1 ) ;
 
   if ( !cap.isOpened() )
     return -1 ;
@@ -35,8 +35,8 @@ int main( int argc, char *argv[] ) {
   Scalar blue_lower = Scalar(115, 120, 0) ;
   Scalar blue_upper = Scalar(125, 220, 254) ;
 
-  Scalar red_lower = Scalar(0, 150, 0) ;
-  Scalar red_upper = Scalar(15, 240, 254) ;
+  Scalar red_lower = Scalar(30, 50, 0) ;
+  Scalar red_upper = Scalar(34, 100, 254) ;
 
   namedWindow( "Source", CV_WINDOW_AUTOSIZE ) ;
   // namedWindow( "Blue Thresholded", CV_WINDOW_AUTOSIZE ) ;
@@ -56,8 +56,8 @@ int main( int argc, char *argv[] ) {
     Mat both_thresholded = Mat(scaled.size(), 8, 1) ;
 
     /* convert image to HSV and blur it */
-    medianBlur(scaled, scaled, 9);
     cvtColor( scaled, imgHSV, CV_BGR2HSV );
+    blur( imgHSV, imgHSV, Size(5, 5) ) ;
 
     /* create some binary images */
     blue_thresholded = GetThresholdedImage( imgHSV, blue_lower, blue_upper ) ;

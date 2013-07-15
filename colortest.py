@@ -15,7 +15,7 @@ def on_mouse(event, x, y, flag, param):
         y_co = y
 
 cv.NamedWindow("camera", 1)
-capture = cv.CaptureFromCAM(0)
+capture = cv.CaptureFromCAM(1)
 font = cv.InitFont(cv.CV_FONT_HERSHEY_SIMPLEX, 0.55, 1, 0, 2, 8)
 
 while True:
