@@ -16,7 +16,7 @@ rr = RR_API()
 rr.Connect("localhost")
 
 # this needs to be changed to the correct COM port
-PORT = '/dev/tty.usbmodem1421'
+PORT = '/dev/tty.usbserial-A601ETWD'
 BAUD_RATE = 9600
 
 ser = serial.Serial(PORT, BAUD_RATE)
@@ -25,6 +25,10 @@ xbee = ZigBee(ser, escaped=True)
 # this needs to be changed to the correct destination address
 DEST_ADDR_LONG = "\x00\x13\xA2\x00\x40\xAA\x18\xD5"
 DEST_ADDR = "\xFF\xFF"
+
+def send_references(x_reference, y_reference):
+    xbee.tx(dest_addr_long=DEST_ADDR_LONG, dest_addr=DEST_ADDR,
+            data="*{0},{1}".format(x_reference, y_reference))
 
 send_references(100, 100)
 
@@ -39,11 +43,14 @@ while True:
         for i in xrange(0, len(centers)):
             orientation = orientations[i] * 1000
             simplex = int(round(centers[i][0]))
-            simplex = int(round(centers[i][1]))
+            simpley = int(round(centers[i][1]))
+
+            print "x: {0}, y: {1}, angle: {2}".format(simplex, simpley, orientation / 1000)
             xbee.tx(dest_addr_long=DEST_ADDR_LONG, dest_addr=DEST_ADDR,
                     data="-{0},{1},{2}".format(simplex, simpley, orientation))    
+            time.sleep(.1)
 
-        time.sleep(.1)
+
 
     except KeyError:
         os.system('clear')
@@ -58,6 +65,3 @@ while True:
 
 ser.close()
 
-def send_references(x_reference, y_reference):
-    xbee.tx(dest_addr_long=DEST_ADDR_LONG, dest_addr=DEST_ADDR,
-            data="*{0},{1}".format(x_reference, y_reference))

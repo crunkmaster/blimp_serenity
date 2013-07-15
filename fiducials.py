@@ -1,6 +1,8 @@
 # some functions for dealing with fiducials
 # a useful abstraction...
 
+import math
+
 def get_fiducials(data):
     fiducials = data['FIDUCIALS'].split(',')
     fiducials = map(float, fiducials)
