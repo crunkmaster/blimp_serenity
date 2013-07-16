@@ -1,4 +1,7 @@
 #!/usr/bin/python
+# the same as blimp_track, except without roborealm interaction
+# makes it easy to input custom values for positions and angles
+# to test blimp behavior
 
 import array
 import time
