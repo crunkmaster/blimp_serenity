@@ -15,6 +15,17 @@
 #include <SoftwareSerial.h>
 #include <PololuQik.h>
 #include <Servo.h>
+
+int get_motor_speed( double turning_angle);
+void stop();
+void right(int motor_speed);
+void left(int motor_speed);
+void reverse(int motor_speed);
+void forward(int motor_speed);
+double get_turning_angle( double phi, double phi_r );
+double get_reference_angle( int y_r, int x_r, int y, int x );
+void get_coordinates( int *x, int *y, double *phi );
+
 Servo serv;
 
 PololuQik2s9v1 qik(2, 3, 4);
@@ -50,7 +61,6 @@ void loop() {
     phi_r = get_reference_angle( y_r, x_r, y, x ) ;
     turning_angle = get_turning_angle( phi, phi_r ) ;
 
-
     if ( turning_angle > sigma ) {
         left(get_motor_speed(turning_angle));
     }
@@ -74,7 +84,7 @@ void loop() {
 void get_coordinates( int *x, int *y, double *phi ) {
 
     if ( Serial.available() > 0 )
-	if ( Serial.findUntil( "-", "-" )) {
+	if ( Serial.findUntil( (char *)"-", (char *)"-" )) {
 	    *x = Serial.parseInt() ;
 	    *y = Serial.parseInt() ;
 	    *phi = (Serial.parseInt() / (float)10000);
@@ -83,7 +93,7 @@ void get_coordinates( int *x, int *y, double *phi ) {
 
 double get_reference_angle( int y_r, int x_r, int y, int x )  {
     double intermediate ;
-    double phi_r ;
+    double phi_r = 0 ;
 
     intermediate = atan2( y_r - y, x_r - x ) ;
 
@@ -112,10 +122,12 @@ void reverse(int motor_speed) {
 
 void left(int motor_speed) {
     qik.setM0Speed(-motor_speed/2);
+    qik.setM1Speed(0);
 }
 
 void right(int motor_speed) {
     qik.setM0Speed(motor_speed/2);
+    qik.setM1Speed(0);
 }
 
 void stop() {
