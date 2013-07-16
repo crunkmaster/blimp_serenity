@@ -1,5 +1,5 @@
 camera_track_test
-RR_API.pyc
+*.pyc
 camera_track
 blimp_track
 /#camera_track_test.cpp#

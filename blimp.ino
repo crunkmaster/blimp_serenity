@@ -5,8 +5,8 @@ const int reverse_motor = 5 ;
 
 const int left_motor = 6 ;
 const int right_motor = 9 ;
-
 const double pi = 4 * atan( (float)1 ) ;
+
 const double sigma = 0.3 ;
 
 double phi, phi_r ;

@@ -23,14 +23,12 @@ ser = serial.Serial(PORT, BAUD_RATE)
 xbee = ZigBee(ser, escaped=True)
 
 # this needs to be changed to the correct destination address
-DEST_ADDR_LONG = "\x00\x13\xA2\x00\x40\xAA\x18\xD5"
+DEST_ADDR_LONG = "\x00\x13\xA2\x00\x40\xAA\x18\xB2"
 DEST_ADDR = "\xFF\xFF"
 
 def send_references(x_reference, y_reference):
     xbee.tx(dest_addr_long=DEST_ADDR_LONG, dest_addr=DEST_ADDR,
             data="*{0},{1}".format(x_reference, y_reference))
-
-send_references(100, 100)
 
 while True:
     try:
@@ -64,4 +62,3 @@ while True:
         break
 
 ser.close()
-
