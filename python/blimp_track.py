@@ -39,7 +39,7 @@ while True:
         orientations = fid.get_orientations(fiducials)
 
         for i in xrange(0, len(centers)):
-            orientation = orientations[i] * 1000
+            orientation = orientations[i] * 10000
             simplex = int(round(centers[i][0]))
             simpley = int(round(centers[i][1]))
 
@@ -47,8 +47,6 @@ while True:
             xbee.tx(dest_addr_long=DEST_ADDR_LONG, dest_addr=DEST_ADDR,
                     data="-{0},{1},{2}".format(simplex, simpley, orientation))    
             time.sleep(.1)
-
-
 
     except KeyError:
         os.system('clear')

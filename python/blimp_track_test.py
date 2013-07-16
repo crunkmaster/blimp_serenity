@@ -28,7 +28,7 @@ while True:
         orientation = 3 * math.pi / 2
         print "x: {0}, y: {1}, angle: {2}".format(simplex, simpley, orientation)
         xbee.tx(dest_addr_long=DEST_ADDR_LONG, dest_addr=DEST_ADDR,
-                data="-{0},{1},{2}".format(simplex, simpley, orientation * 10000))   x 
+                data="-{0},{1},{2}".format(simplex, simpley, orientation * 10000))    
         time.sleep(.1)
 
     except KeyError:
