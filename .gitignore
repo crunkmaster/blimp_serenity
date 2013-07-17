@@ -1,5 +1,6 @@
 camera_track_test
 *.pyc
+.lib
 camera_track
 blimp_track
 /#camera_track_test.cpp#
