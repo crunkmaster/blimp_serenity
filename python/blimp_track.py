@@ -16,7 +16,7 @@ rr = RR_API()
 rr.Connect("localhost")
 
 # this needs to be changed to the correct COM port
-PORT = '/dev/tty.usbserial-A601ETWD'
+PORT = 'COM3'
 BAUD_RATE = 9600
 
 ser = serial.Serial(PORT, BAUD_RATE)
@@ -43,7 +43,7 @@ while True:
             simplex = int(round(centers[i][0]))
             simpley = int(round(centers[i][1]))
 
-            print "x: {0}, y: {1}, angle: {2}".format(simplex, simpley, orientation / 1000)
+            print "x: {0}, y: {1}, angle: {2}".format(simplex, simpley, orientation / 10000)
             xbee.tx(dest_addr_long=DEST_ADDR_LONG, dest_addr=DEST_ADDR,
                     data="-{0},{1},{2}".format(simplex, simpley, orientation))    
             time.sleep(.1)

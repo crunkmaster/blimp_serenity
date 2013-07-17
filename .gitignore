@@ -7,3 +7,7 @@ blimp_track
 /camera_track_squares.cpp
 /squares
 /.#blimp_track.py
+/.DS_Store
+/blimp/.dep/blimp.ino.dep
+/blimp/blimp.hex
+/blimp/blimp.o

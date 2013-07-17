@@ -57,7 +57,6 @@ void loop() {
     y_r = 100 ;
     
     get_coordinates( &x, &y, &phi ) ;
-    Serial.println(phi);
     phi_r = get_reference_angle( y_r, x_r, y, x ) ;
     turning_angle = get_turning_angle( phi, phi_r ) ;
 
@@ -66,6 +65,7 @@ void loop() {
     }
 
     else{
+
         left(0);
         ro = sqrt( pow(y_r-y, 2) + pow(x_r - x, 2) );
 
@@ -77,8 +77,8 @@ void loop() {
         }
     }
 
-
     delay(10);
+
 }
 
 void get_coordinates( int *x, int *y, double *phi ) {
@@ -133,7 +133,6 @@ void right(int motor_speed) {
 void stop() {
     qik.setM1Speed(0);
     qik.setM0Speed(0);
-
 }
 
 int get_motor_speed( double turning_angle)
