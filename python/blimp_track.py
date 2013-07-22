@@ -33,19 +33,22 @@ def send_references(x_reference, y_reference):
 while True:
     try:
         # get all variables from RR_API
+        x_r = 100
+        y_r = 100
         data = rr.GetAllVariables()
-        fiducials = fid.get_fiducials(data)
-        centers = fid.get_centers(fiducials)
-        orientations = fid.get_orientations(fiducials)
+        fiducials = rr.GetFiducials()
+        fiducialsPath = rr.GetFiducialsPath()
+        
+        for key in fiducials.iterkeys():
+            orientation = fid.get_orientation(fiducials[key]) * 10000
+            center = fid.get_center(fiducials[key]) 
+            x = int(round(center[0]))
+            y = int(round(center[1]))
+            name = fid.get_fiducial_name(fiducials[key], fiducialsPath)
+            scale = fid.get_scale(fiducials[key]) * 10000
 
-        for i in xrange(0, len(centers)):
-            orientation = orientations[i] * 10000
-            simplex = int(round(centers[i][0]))
-            simpley = int(round(centers[i][1]))
-
-            print "x: {0}, y: {1}, angle: {2}".format(simplex, simpley, orientation / 10000)
             xbee.tx(dest_addr_long=DEST_ADDR_LONG, dest_addr=DEST_ADDR,
-                    data="-{0},{1},{2}".format(simplex, simpley, orientation))    
+                    data="-{0},{1},{2}".format(simplex, simpley, orientation, scale))    
             time.sleep(.1)
 
     except KeyError:

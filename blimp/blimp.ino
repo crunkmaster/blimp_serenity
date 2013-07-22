@@ -81,13 +81,14 @@ void loop() {
 
 }
 
-void get_coordinates( int *x, int *y, double *phi ) {
+void get_coordinates( int *x, int *y, double *phi, double *scale ) {
 
     if ( Serial.available() > 0 )
 	if ( Serial.findUntil( (char *)"-", (char *)"-" )) {
 	    *x = Serial.parseInt() ;
 	    *y = Serial.parseInt() ;
 	    *phi = (Serial.parseInt() / (float)10000);
+            *scale = (SerialparseInt() / (float)10000);
 	}
 }
 

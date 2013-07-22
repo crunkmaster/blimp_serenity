@@ -3,31 +3,22 @@
 
 import math
 
-def get_fiducials(data):
-    fiducials = data['FIDUCIALS'].split(',')
-    fiducials = map(float, fiducials)
-    fiducialMatrix = [[fiducials[j] for j in range( (i*17), (i*17) + 17 )]
-                      for i in range(0, (len(fiducials) /17))]
+def get_center(fiducial):
+    xs = fiducial[1:8:2] # slice x coordinates
+    ys = fiducial[2:9:2] # slice y coordinates
+    center = [ (sum(xs) / len(xs)), (sum(ys) / len(ys)) ]
+    return center
 
-    fiducialDict = {}
-    for i in xrange(0, (len(fiducials) / 17)):
-        fiducialDict['FID{0}'.format(i + 1)] = fiducialMatrix[i]
+def get_orientation(fiducial):
+    orientation = fiducial[14] * (math.pi / 180)
+    return orientation
 
-    return fiducialDict
+def get_fiducial_name(fiducial, path):
+    index = int(fiducial[15])
+    length = int(fiducial[16])
+    name = path[index:(length + index) - 1]
+    return name
 
-def get_centers(fiducialDict):
-    centers = []
-    for key in sorted(fiducialDict.iterkeys() ):
-        xs = fiducialDict[key][1:8:2] # slice the x coordinates
-        ys = fiducialDict[key][2:9:2] # slice the y coordiantes
-        centers.append( [sum(xs) / len(xs), sum(ys) / len(ys)] )
-
-    return centers
-
-def get_orientations(fiducialDict):
-    orientations = []
-    for key in sorted(fiducialDict.iterkeys() ):
-        orientations.append( fiducialDict[key][14] * (math.pi / 180) )
-
-    return orientations
-
+def get_fiducial_scale(fiducial):
+    scale = int(fiducial[11])
+    return scale
