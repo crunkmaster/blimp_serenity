@@ -125,6 +125,20 @@ class RR_API:
       data[key] = value
     return data
 
+  def GetFiducials(self):
+    fiducials = self.GetVariable('FIDUCIALS').split(',')
+    fiducials = map(float, fiducials)
+    fiducialMatrix = [[fiducials[j] for j in range( (i*17), (i*17) + 17 )]
+                      for i in range(0, (len(fiducials) /17))]
+    fiducialDict = {}
+    for i in xrange(0, (len(fiducials) / 17)):
+        fiducialDict['FID{0}'.format(i + 1)] = fiducialMatrix[i]
+    return fiducialDict
+
+  def GetFiducialsPath(self):
+    path = self.GetVariable('FIDUCIALS_PATH')
+    return path
+    
   # Sets the value of the specified variable.
   def SetVariable(self, name, value):
     self.sock.send("<request><set_variable><name>"+self.escape(str(name))+"</name><value>"+self.escape(str(value))+"</value></set_variable></request>")

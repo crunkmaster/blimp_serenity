@@ -19,6 +19,6 @@ def get_fiducial_name(fiducial, path):
     name = path[index:(length + index) - 1]
     return name
 
-def get_fiducial_scale(fiducial):
-    scale = int(fiducial[11])
+def get_scale(fiducial):
+    scale = float(fiducial[11])
     return scale

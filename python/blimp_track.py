@@ -19,8 +19,8 @@ rr.Connect("localhost")
 PORT = 'COM3'
 BAUD_RATE = 9600
 
-ser = serial.Serial(PORT, BAUD_RATE)
-xbee = ZigBee(ser, escaped=True)
+#ser = serial.Serial(PORT, BAUD_RATE)
+#xbee = ZigBee(ser, escaped=True)
 
 # this needs to be changed to the correct destination address
 DEST_ADDR_LONG = "\x00\x13\xA2\x00\x40\xAA\x18\xB2"
@@ -40,15 +40,19 @@ while True:
         fiducialsPath = rr.GetFiducialsPath()
         
         for key in fiducials.iterkeys():
-            orientation = fid.get_orientation(fiducials[key]) * 10000
+            orientation = fid.get_orientation(fiducials[key])
             center = fid.get_center(fiducials[key]) 
             x = int(round(center[0]))
             y = int(round(center[1]))
             name = fid.get_fiducial_name(fiducials[key], fiducialsPath)
-            scale = fid.get_scale(fiducials[key]) * 10000
+            scale = fid.get_scale(fiducials[key])
+            
+            print "x: {0} y: {1} orientation: {2} scale: {3}".format(x, y, orientation, scale)
+            orientation = orientation * 10000
+            scale = scale * 10000
 
-            xbee.tx(dest_addr_long=DEST_ADDR_LONG, dest_addr=DEST_ADDR,
-                    data="-{0},{1},{2}".format(simplex, simpley, orientation, scale))    
+#            xbee.tx(dest_addr_long=DEST_ADDR_LONG, dest_addr=DEST_ADDR,
+#                    data="-{0},{1},{2}".format(simplex, simpley, orientation, scale))    
             time.sleep(.1)
 
     except KeyError:
